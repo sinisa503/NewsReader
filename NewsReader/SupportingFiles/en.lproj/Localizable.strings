@@ -8,3 +8,9 @@
 
 "ARTICLE" = "Article";
 "ARTICLES" = "Articles";
+"OK" = "OK";
+"NEWS" = "News";
+"COUNTRY" = "Country";
+"ERROR" = "Error";
+"ERROR LOADING WEB" = "Error loading web";
+"WEB" = "Web";

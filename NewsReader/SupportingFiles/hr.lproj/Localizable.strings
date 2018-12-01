@@ -8,3 +8,9 @@
 
 "ARTICLE" = "Članak";
 "ARTICLES" = "Članci";
+"OK" = "U redu";
+"NEWS" = "Novosti";
+"COUNTRY" = "Država";
+"ERROR" = "Greška";
+"ERROR LOADING WEB" = "Greška prilikom učitavanja web-a";
+"WEB" = "Web";

@@ -13,7 +13,7 @@ class ArticlesPresenter {
    var articles:[Article]? {
       didSet {
          DispatchQueue.main.sync {
-            view?.refreshArticles()
+            view?.refreshTableView()
          }
       }
    }
@@ -25,9 +25,13 @@ class ArticlesPresenter {
 }
 
 extension ArticlesPresenter: ArticlesPresentation {
-   
    func viewDidLoad() {
-      interactor?.downloadArticles(completion: { articles in
+      
+      refreshArticles()
+   }
+   
+   func refreshArticles() {
+      interactor?.downloadArticles(for: .germany, completion: { articles in
          self.articles = articles
       })
    }
@@ -39,5 +43,7 @@ extension ArticlesPresenter: ArticlesPresentation {
 }
 
 extension ArticlesPresenter: ArticlesInteractorOutput {
-   
+   func showErrorAlert(with title:String, and message: String) {
+      view?.showErrorAlert(with: title, and: message)
+   }
 }

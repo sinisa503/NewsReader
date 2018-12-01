@@ -7,3 +7,18 @@
 //
 
 import Foundation
+
+enum RequestError<T>:Error {
+   case invalidJson(for:T)
+}
+
+enum RequestResult<T:Decodable> {
+   case success(T)
+   case failure(Error)
+}
+
+enum Country: String {
+   case usa = "us"
+   case germany = "de"
+   case italy = "it"
+}

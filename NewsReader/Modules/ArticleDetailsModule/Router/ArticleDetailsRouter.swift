@@ -6,16 +6,16 @@
 //  Copyright © 2018 Sinisa Vukovic. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
 class ArticleDetailsRouter {
-
     weak var view: UIViewController?
-   
-   
 }
 
 extension ArticleDetailsRouter: ArticleDetailsWireframe {
-    // TODO: Implement wireframe methods
+   func showWebPage(url: URL) {
+      if UIApplication.shared.canOpenURL(url) {
+         UIApplication.shared.open(url, options: [:], completionHandler: nil)
+      }
+   }
 }

@@ -9,14 +9,12 @@
 import UIKit
 
 class ArticlesRouter {
-   
    weak var view: UIViewController?
 }
 
 extension ArticlesRouter: ArticlesWireframe {
    func showDetails(for article: Article) {
       let articleDetailsViewController = ArticleDetailsBuilder.setupModule(with: article)
-      
-      view?.showDetailViewController(articleDetailsViewController, sender: nil)
+      view?.navigationController?.show(articleDetailsViewController, sender: view)
    }
 }

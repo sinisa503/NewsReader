@@ -9,21 +9,17 @@
 import Foundation
 
 protocol ArticleDetailsView: class {
-    // TODO: Declare view methods
+    func showErrorAlert(with title:String, and message: String)
 }
 
 protocol ArticleDetailsPresentation: class {
-    // TODO: Declare presentation methods
+   func showWebPage(url:String?)
 }
 
-protocol ArticleDetailsUseCase: class {
-    // TODO: Declare use case methods
-}
+protocol ArticleDetailsUseCase: class {}
 
-protocol ArticleDetailsInteractorOutput: class {
-    // TODO: Declare interactor output methods
-}
+protocol ArticleDetailsInteractorOutput: class {}
 
 protocol ArticleDetailsWireframe: class {
-    // TODO: Declare wireframe methods
+    func showWebPage(url:URL)
 }

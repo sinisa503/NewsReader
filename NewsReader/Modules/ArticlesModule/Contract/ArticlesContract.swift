@@ -8,29 +8,26 @@
 
 import Foundation
 
-//ViewController
 protocol ArticlesView: class {
-   func refreshArticles()
+   func refreshTableView()
+   func showErrorAlert(with title:String, and message: String)
 }
 
-//Presenter
 protocol ArticlesPresentation {
    var articles:[Article]? { get }
    func viewDidLoad()
    func showDetails(for article:Article?)
+   func refreshArticles()
 }
 
-//Presenter -> Interactor
 protocol ArticlesUseCase {
-   func downloadArticles(completion: @escaping ([Article])->())
+   func downloadArticles(for country:Country, completion: @escaping ([Article])->())
 }
 
-//Interactor -> Presenter
 protocol ArticlesInteractorOutput {
-   
+   func showErrorAlert(with title:String, and message: String)
 }
 
-//Router
 protocol ArticlesWireframe {
    func showDetails(for article: Article)
 }

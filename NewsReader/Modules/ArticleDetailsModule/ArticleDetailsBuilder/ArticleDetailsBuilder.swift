@@ -11,6 +11,7 @@ import Foundation
 struct ArticleDetailsBuilder {
  
    static func setupModule(with article:Article) -> ArticleDetailsViewController {
+      
       let viewController = ArticleDetailsViewController()
       let presenter = ArticleDetailsPresenter()
       let router = ArticleDetailsRouter()

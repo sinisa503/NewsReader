@@ -7,3 +7,47 @@
 //
 
 import Foundation
+
+class NetworkService {
+   
+   private init() {}
+   static let shared = NetworkService()
+   
+   func download<T:Resource>(resource:T.Type,parametars:[String:String], completionHandler completion:@escaping (RequestResult<T>)->Void) {
+      
+      let session = URLSession(configuration: .default)
+      if let request = ApiService.request(for: resource, method: .get, parameters: parametars) {
+         let task = session.dataTask(with: request) { (data, response, error) in
+            guard error == nil, let data = data else {
+               completion(.failure(error!));
+               return
+            }
+            do {
+               let decoder = JSONDecoder()
+               let responseModel = try decoder.decode(T.self, from: data)
+               completion(.success(responseModel))
+            }catch let error {
+               completion(.failure(error))
+            }
+         }
+         task.resume()
+      }
+   }
+   
+   func downloadImage(from url:String, completion: @escaping (Data?)->Void) {
+      guard let url = URL(string: url) else {
+         completion(nil)
+         return
+      }
+      let request = URLRequest(url: url, cachePolicy: .returnCacheDataElseLoad)
+      let session = URLSession(configuration: .default)
+      let task = session.dataTask(with: request) { (data, response, error) in
+         guard error == nil, data != nil else {
+            completion(nil)
+            return
+         }
+         completion(data)
+      }
+      task.resume()
+   }
+}

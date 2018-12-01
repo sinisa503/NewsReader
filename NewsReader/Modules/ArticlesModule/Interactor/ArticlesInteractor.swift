@@ -13,13 +13,13 @@ class ArticlesInteractor {
 }
 
 extension ArticlesInteractor: ArticlesUseCase {
-   func downloadArticles(completion: @escaping ([Article])->()) {
-      NetworkService.shared.download(resource: ArticlesResponseModel.self, parametars: ["country":"us"]) { [weak self] result in
+   func downloadArticles(for country:Country, completion: @escaping ([Article])->()) {
+      NetworkService.shared.download(resource: ArticlesResponseModel.self, parametars: [ApiConstant.KEY_COUNTRY:country.rawValue]) { [weak self] result in
          switch result {
          case .success(let responseModel):
             completion(responseModel.articles)
          case .failure(let error):
-            break
+            self?.output?.showErrorAlert(with: "ERROR".localized(), and: error.localizedDescription)
          }
       }
    }

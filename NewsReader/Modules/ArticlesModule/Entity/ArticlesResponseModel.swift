@@ -8,13 +8,24 @@
 
 import Foundation
 
-struct ArticlesResponseModel: Codable {
+protocol Resource: Codable {
+   static var endpoint:String { get }
+}
+
+struct ArticlesResponseModel {
     let status: String
     let totalResults: Int
     let articles: [Article]
 }
 
+extension ArticlesResponseModel: Resource {
+   static var endpoint: String {
+      return ApiConstant.topHeadlinesEndpoint
+   }
+}
+
 struct Article: Codable {
+   
     let source: Source?
     let author: String?
     let title, description, url, urlToImage: String?

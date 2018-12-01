@@ -7,3 +7,18 @@
 //
 
 import Foundation
+
+extension String {
+   
+   func localized() -> String {
+      return NSLocalizedString(self, comment: "")
+   }
+   
+   func normalizeDate() -> String? {
+      if let date = DateUtils.shared.apiDateFormatter.date(from: self) {
+         return DateUtils.shared.normalizedDateFormatter.string(from: date)
+      } else {
+         return nil
+      }
+   }
+}

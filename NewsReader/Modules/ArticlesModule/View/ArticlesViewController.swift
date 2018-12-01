@@ -15,18 +15,29 @@ class ArticlesViewController: UIViewController {
    var presenter: ArticlesPresentation?
    
    @IBOutlet weak var tableView: UITableView!
+   lazy var refreshControl:UIRefreshControl = {
+      let control = UIRefreshControl()
+      control.addTarget(self, action: #selector(refreshArticles), for: .valueChanged)
+      return control
+   }()
    
    override func viewDidLoad() {
       super.viewDidLoad()
       
-      configure()
+      setup()
       presenter?.viewDidLoad()
    }
    
-   private func configure() {
-      self.title = "ARTICLES".localized()
+   @objc func refreshArticles() {
+      presenter?.refreshArticles()
+   }
+   
+   private func setup() {
+      self.title = "NEWS".localized()
       let cellNib = UINib(nibName: ArticleTableViewCell.identifier, bundle: Bundle.main)
       tableView.register(cellNib, forCellReuseIdentifier: ArticleTableViewCell.identifier)
+      tableView.refreshControl = self.refreshControl
+      tableView.rowHeight = 200
    }
 }
 
@@ -57,7 +68,17 @@ extension ArticlesViewController: UITableViewDelegate {
 
 extension ArticlesViewController: ArticlesView {
    
-   func refreshArticles() {
+   func showErrorAlert(with title: String, and message: String) {
+      let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+      let actionOK = UIAlertAction(title: "OK".localized(), style: .default, handler: nil)
+      alert.addAction(actionOK)
+      self.present(alert, animated: true, completion: nil)
+   }
+   
+   func refreshTableView() {
       tableView.reloadData()
+      if tableView.refreshControl?.isRefreshing ?? false {
+         tableView.refreshControl?.endRefreshing()
+      }
    }
 }

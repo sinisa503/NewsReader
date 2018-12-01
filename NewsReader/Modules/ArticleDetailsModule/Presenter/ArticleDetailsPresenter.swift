@@ -10,17 +10,22 @@ import Foundation
 
 class ArticleDetailsPresenter {
 
+   
+   
     // MARK: Properties
-
     weak var view: ArticleDetailsView?
     var router: ArticleDetailsWireframe?
     var interactor: ArticleDetailsUseCase?
 }
 
 extension ArticleDetailsPresenter: ArticleDetailsPresentation {
-    // TODO: implement presentation methods
+   func showWebPage(url: String?) {
+      if let urlString = url, let url = URL(string: urlString) {
+         router?.showWebPage(url: url)
+      }else {
+         view?.showErrorAlert(with: "ERROR".localized(), and: "ERROR LOADING WEB".localized())
+      }
+   }
 }
 
-extension ArticleDetailsPresenter: ArticleDetailsInteractorOutput {
-    // TODO: implement interactor output methods
-}
+extension ArticleDetailsPresenter: ArticleDetailsInteractorOutput {}
