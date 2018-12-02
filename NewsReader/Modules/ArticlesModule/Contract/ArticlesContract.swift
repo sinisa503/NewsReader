@@ -14,10 +14,11 @@ protocol ArticlesView: class {
 }
 
 protocol ArticlesPresentation {
-   var articles:[Article]? { get }
+   var presentedArticles:[Article]? { get }
    func viewDidLoad()
    func showDetails(for article:Article?)
    func refreshArticles(options:[String:String])
+   func findArticles(with text:String)
 }
 
 protocol ArticlesUseCase {

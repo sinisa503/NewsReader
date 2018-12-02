@@ -23,13 +23,9 @@ class ArticlesViewController: UIViewController {
          }
       }
    }
-   lazy var refreshControl:UIRefreshControl = {
-      let control = UIRefreshControl()
-      control.addTarget(self, action: #selector(refreshArticles), for: .valueChanged)
-      return control
-   }()
    
    @IBOutlet weak var tableView: UITableView!
+   @IBOutlet weak var searchBar: UISearchBar!
    
    override func viewDidLoad() {
       super.viewDidLoad()
@@ -48,7 +44,6 @@ class ArticlesViewController: UIViewController {
       
       let cellNib = UINib(nibName: ArticleTableViewCell.IDENTIFIER, bundle: Bundle.main)
       tableView.register(cellNib, forCellReuseIdentifier: ArticleTableViewCell.IDENTIFIER)
-      tableView.refreshControl = self.refreshControl
       tableView.rowHeight = ArticleTableViewCell.ROW_HEIGHT
    }
    
@@ -70,12 +65,12 @@ class ArticlesViewController: UIViewController {
 extension ArticlesViewController: UITableViewDataSource {
    
    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-         return presenter?.articles?.count ?? 0
+         return presenter?.presentedArticles?.count ?? 0
    }
    
    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
       if let cell = tableView.dequeueReusableCell(withIdentifier: ArticleTableViewCell.IDENTIFIER) as? ArticleTableViewCell {
-         if let article = presenter?.articles?[indexPath.row] {
+         if let article = presenter?.presentedArticles?[indexPath.row] {
             cell.configure(with: article)
          }
          return cell
@@ -88,7 +83,7 @@ extension ArticlesViewController: UITableViewDataSource {
 extension ArticlesViewController: UITableViewDelegate {
 
    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-      presenter?.showDetails(for: presenter?.articles?[indexPath.row])
+      presenter?.showDetails(for: presenter?.presentedArticles?[indexPath.row])
    }
 }
 
@@ -106,5 +101,22 @@ extension ArticlesViewController: ArticlesView {
       if tableView.refreshControl?.isRefreshing ?? false {
          tableView.refreshControl?.endRefreshing()
       }
+   }
+}
+
+extension ArticlesViewController: UISearchBarDelegate {
+   
+   func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+      if searchText == "" {
+         presenter?.refreshArticles(options: [:])
+      } else {
+         presenter?.findArticles(with: searchText)
+      }
+   }
+}
+
+extension ArticlesViewController: UIScrollViewDelegate {
+   func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+      searchBar.resignFirstResponder()
    }
 }

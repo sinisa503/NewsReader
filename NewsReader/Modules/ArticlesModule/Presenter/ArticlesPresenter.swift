@@ -10,9 +10,15 @@ import Foundation
 
 class ArticlesPresenter {
    
-   var articles:[Article]? {
+   var presentedArticles:[Article]? {
       didSet {
          view?.refreshTableView()
+      }
+   }
+   
+   var allArticles:[Article]? {
+      didSet {
+         presentedArticles = allArticles
       }
    }
    
@@ -31,13 +37,20 @@ extension ArticlesPresenter: ArticlesPresentation {
    
    func refreshArticles(options:[String:String]) {
       self.interactor?.downloadArticles(options: options, completion: { articles in
-         self.articles = articles
+         self.allArticles = articles
       })
    }
    
    func showDetails(for article: Article?) {
       guard let article = article else { return }
       router?.showDetails(for: article)
+   }
+   
+   func findArticles(with text:String) {
+      presentedArticles = allArticles?.filter({ article -> Bool in
+         guard let title = article.title else { return false }
+         return title.lowercased().contains(text.lowercased())
+      })
    }
 }
 
