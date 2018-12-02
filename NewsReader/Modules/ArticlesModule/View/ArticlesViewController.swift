@@ -10,6 +10,11 @@ import UIKit
 
 class ArticlesViewController: UIViewController {
    
+   // MARK: IBOutlets
+   @IBOutlet weak var tableView: UITableView!
+   @IBOutlet weak var searchBar: UISearchBar!
+   
+   //MARK: Properties
    static let IDENTIFIER = "ArticlesViewController"
    var presenter: ArticlesPresentation?
    private var searchOption: ArticleEndpoint = .allHeadlines {
@@ -24,15 +29,14 @@ class ArticlesViewController: UIViewController {
       }
    }
    
-   @IBOutlet weak var tableView: UITableView!
-   @IBOutlet weak var searchBar: UISearchBar!
-   
+   //MARK: Lifecycle
    override func viewDidLoad() {
       super.viewDidLoad()
       setup()
       presenter?.viewDidLoad()
    }
    
+   //MARK: Private methods
    @objc private func refreshArticles() {
       presenter?.refreshArticles(options: [:])
    }
@@ -107,11 +111,7 @@ extension ArticlesViewController: ArticlesView {
 extension ArticlesViewController: UISearchBarDelegate {
    
    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-      if searchText == "" {
-         presenter?.refreshArticles(options: [:])
-      } else {
-         presenter?.findArticles(with: searchText)
-      }
+      searchText == "" ? presenter?.refreshArticles(options: [:]) : presenter?.findArticles(with: searchText)
    }
 }
 

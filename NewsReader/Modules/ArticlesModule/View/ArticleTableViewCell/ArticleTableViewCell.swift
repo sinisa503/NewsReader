@@ -24,7 +24,7 @@ class ArticleTableViewCell: UITableViewCell {
    func configure(with article: Article) {
       self.titleLabel.text = article.title
       if let publishDateString = article.publishedAt {
-         self.dateLabel.text = publishDateString.normalizeDate()
+         self.dateLabel.text = publishDateString.normalizeHowOld()
       }
       if let imageUrl = article.urlToImage {
          let cache = ImageLoader.shared

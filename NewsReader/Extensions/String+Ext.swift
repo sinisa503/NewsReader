@@ -21,4 +21,24 @@ extension String {
          return nil
       }
    }
+   
+   func normalizeHowOld() -> String? {
+      if let date = DateUtils.shared.apiDateFormatter.date(from: self) {
+         var string = ""
+         let calendar = Calendar(identifier: .gregorian)
+         let components = calendar.dateComponents([.day, .hour, .minute], from: date)
+         if let day = components.day {
+            string.append(contentsOf: "\(day <= 0 ? "" : "\(day) d ")")
+         }
+         if let hour = components.hour {
+            string.append(contentsOf: "\(hour <= 0 ? "" : "\(hour) h ")")
+         }
+         if let minute = components.minute {
+            string.append(contentsOf: "\(minute <= 0 ? "" : "\(minute) m")")
+         }
+         return string
+      } else {
+         return nil
+      }
+   }
 }

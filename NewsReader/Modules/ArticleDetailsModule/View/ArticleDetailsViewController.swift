@@ -49,7 +49,7 @@ class ArticleDetailsViewController: UIViewController {
       self.titleLabel.text = article.title
       self.authorLabel.text = article.author
       self.sourceLabel.text = article.source?.name
-      self.dateLabel.text = article.publishedAt?.normalizeDate()
+      self.dateLabel.text = article.publishedAt?.normalizeHowOld()
       self.contentTextView.text = article.description != nil ? article.description : article.content
       if let imageUrl = article.urlToImage {
          ImageLoader.shared.loadImage(from: imageUrl, completion: { image in
