@@ -14,7 +14,8 @@ class ArticleTableViewCell: UITableViewCell {
    @IBOutlet weak var dateLabel: UILabel!
    @IBOutlet weak var thumbnailImageView: UIImageView!
    
-   static let identifier = "ArticleTableViewCell"
+   static let IDENTIFIER = "ArticleTableViewCell"
+   static let ROW_HEIGHT:CGFloat = 200
    
    override func prepareForReuse() {
       thumbnailImageView.image = nil
@@ -26,8 +27,8 @@ class ArticleTableViewCell: UITableViewCell {
          self.dateLabel.text = publishDateString.normalizeDate()
       }
       if let imageUrl = article.urlToImage {
-         let cache = CacheService.shared
-         cache.getImage(for: imageUrl) {[weak self] image in
+         let cache = ImageLoader.shared
+         cache.loadImage(from: imageUrl) {[weak self] image in
             DispatchQueue.main.async {
                self?.thumbnailImageView.image = image == nil ? #imageLiteral(resourceName: "default_news") : image
             }

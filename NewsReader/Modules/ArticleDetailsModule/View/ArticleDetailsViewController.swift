@@ -52,7 +52,7 @@ class ArticleDetailsViewController: UIViewController {
       self.dateLabel.text = article.publishedAt?.normalizeDate()
       self.contentTextView.text = article.description != nil ? article.description : article.content
       if let imageUrl = article.urlToImage {
-         CacheService.shared.getImage(for: imageUrl, completion: { image in
+         ImageLoader.shared.loadImage(from: imageUrl, completion: { image in
             DispatchQueue.main.async { [weak self] in
                self?.articleImageView.image = image == nil ? #imageLiteral(resourceName: "default_news") : image
             }

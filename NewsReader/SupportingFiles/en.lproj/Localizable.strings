@@ -14,3 +14,8 @@
 "ERROR" = "Error";
 "ERROR LOADING WEB" = "Error loading web";
 "WEB" = "Web";
+"OPTIONS" = "Options";
+"SELECT SEARCH OPTION" = "Select search option";
+"ALL HEADLINES" = "All headlines";
+"TOP HEADLINES" = "Top headlines";
+"CANCEL" = "Cancel";

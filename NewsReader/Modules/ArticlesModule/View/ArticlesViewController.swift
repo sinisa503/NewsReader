@@ -10,34 +10,55 @@ import UIKit
 
 class ArticlesViewController: UIViewController {
    
-   static let identifier = "ArticlesViewController"
-   
+   static let IDENTIFIER = "ArticlesViewController"
    var presenter: ArticlesPresentation?
-   
-   @IBOutlet weak var tableView: UITableView!
+   private var searchOption: ArticleEndpoint = .allHeadlines {
+      didSet {
+         Settings.shared.searchEndpoint = searchOption
+         presenter?.refreshArticles()
+      }
+   }
    lazy var refreshControl:UIRefreshControl = {
       let control = UIRefreshControl()
       control.addTarget(self, action: #selector(refreshArticles), for: .valueChanged)
       return control
    }()
    
+   @IBOutlet weak var tableView: UITableView!
+   
    override func viewDidLoad() {
       super.viewDidLoad()
-      
       setup()
       presenter?.viewDidLoad()
    }
    
-   @objc func refreshArticles() {
+   @objc private func refreshArticles() {
       presenter?.refreshArticles()
    }
    
    private func setup() {
       self.title = "NEWS".localized()
-      let cellNib = UINib(nibName: ArticleTableViewCell.identifier, bundle: Bundle.main)
-      tableView.register(cellNib, forCellReuseIdentifier: ArticleTableViewCell.identifier)
+      let searchTypeBarButton = UIBarButtonItem(title: "OPTIONS".localized(), style: .plain, target: self, action: #selector(setSearch))
+      self.navigationItem.rightBarButtonItem = searchTypeBarButton
+      
+      let cellNib = UINib(nibName: ArticleTableViewCell.IDENTIFIER, bundle: Bundle.main)
+      tableView.register(cellNib, forCellReuseIdentifier: ArticleTableViewCell.IDENTIFIER)
       tableView.refreshControl = self.refreshControl
-      tableView.rowHeight = 200
+      tableView.rowHeight = ArticleTableViewCell.ROW_HEIGHT
+   }
+   
+   @objc private func setSearch() {
+      let optionSheet = UIAlertController(title: "OPTIONS".localized(), message: "SELECT SEARCH OPTION".localized(), preferredStyle: .actionSheet)
+      let allHeadlinesAction = UIAlertAction(title: "ALL HEADLINES".localized(), style: .default) {[weak self] _ in
+         self?.searchOption = .allHeadlines
+      }
+      let topHeadlinesAction = UIAlertAction(title: "TOP HEADLINES".localized(), style: .default) {[weak self] _ in
+         self?.searchOption = .topHeadlines
+      }
+      optionSheet.addAction(topHeadlinesAction)
+      optionSheet.addAction(allHeadlinesAction)
+      optionSheet.addAction(UIAlertAction(title: "CANCEL".localized(), style: .cancel, handler: nil))
+      self.present(optionSheet, animated: true, completion: nil)
    }
 }
 
@@ -48,7 +69,7 @@ extension ArticlesViewController: UITableViewDataSource {
    }
    
    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-      if let cell = tableView.dequeueReusableCell(withIdentifier: ArticleTableViewCell.identifier) as? ArticleTableViewCell {
+      if let cell = tableView.dequeueReusableCell(withIdentifier: ArticleTableViewCell.IDENTIFIER) as? ArticleTableViewCell {
          if let article = presenter?.articles?[indexPath.row] {
             cell.configure(with: article)
          }

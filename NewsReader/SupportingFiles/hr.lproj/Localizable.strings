@@ -14,3 +14,8 @@
 "ERROR" = "Greška";
 "ERROR LOADING WEB" = "Greška prilikom učitavanja web-a";
 "WEB" = "Web";
+"OPTIONS" = "Opcije";
+"SELECT SEARCH OPTION" = "Izaberi opciju pretrage";
+"ALL HEADLINES" = "Sve vijesti";
+"TOP HEADLINES" = "Najbitnije vijesti";
+"CANCEL" = "Odustani";

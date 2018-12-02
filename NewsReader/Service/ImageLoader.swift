@@ -8,13 +8,13 @@
 
 import UIKit
 
-class CacheService {
+class ImageLoader {
    
    private init() {}
-   static let shared = CacheService()
+   static let shared = ImageLoader()
    
-   func getImage(for url:String, completion: @escaping (UIImage?)->()) {
-      if let cachedImage = getImageFromCache(for: NSString(string: url)) {
+   func loadImage(from url:String, completion: @escaping (UIImage?)->()) {
+      if let cachedImage = loadImageFromCache(NSString(string: url)) {
          completion(cachedImage)
       }else {
          downloadImage(from: url) {[weak self] image in
@@ -36,7 +36,7 @@ class CacheService {
       cache.setObject(image, forKey: key)
    }
    
-   private func getImageFromCache(for key:NSString) -> UIImage? {
+   private func loadImageFromCache(_ key:NSString) -> UIImage? {
       return cache.object(forKey: key)
    }
    

@@ -9,6 +9,11 @@
 import Foundation
 import Foundation
 
+enum ArticleEndpoint: String {
+   case topHeadlines = "v2/top-headlines"
+   case allHeadlines = "v2/everything"
+}
+
 struct ApiService {
    
    enum Method: String {
@@ -18,8 +23,8 @@ struct ApiService {
       case delete = "DELETE"
    }
    
-   static func request(for resource: Resource.Type, method: Method, parameters: [String:String]? = nil) -> URLRequest? {
-      var components = URLComponents(string: "\(ApiConstant.baseUrl)/\(resource.endpoint)")
+   static func request(for resource: Decodable.Type, method: Method, parameters: [String:String]? = nil) -> URLRequest? {
+      var components = URLComponents(string: "\(ApiConstant.baseUrl)/\(Settings.shared.searchEndpoint.rawValue)")
       
       var queryItems = [URLQueryItem]()
       if let parameters = parameters {

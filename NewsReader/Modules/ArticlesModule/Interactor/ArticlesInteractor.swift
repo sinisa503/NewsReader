@@ -13,8 +13,9 @@ class ArticlesInteractor {
 }
 
 extension ArticlesInteractor: ArticlesUseCase {
-   func downloadArticles(for country:Country, completion: @escaping ([Article])->()) {
-      NetworkService.shared.download(resource: ArticlesResponseModel.self, parametars: [ApiConstant.KEY_COUNTRY:country.rawValue]) { [weak self] result in
+   
+   func downloadArticles(completion: @escaping ([Article]) -> ()) {
+      NetworkService.shared.download(resource: ArticlesResponseModel.self, parametars: [ApiConstant.KEY_Q:ApiConstant.VALUE_TECHNOLOGY]) { [weak self] result in
          switch result {
          case .success(let responseModel):
             completion(responseModel.articles)

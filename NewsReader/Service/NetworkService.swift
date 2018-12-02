@@ -13,24 +13,31 @@ class NetworkService {
    private init() {}
    static let shared = NetworkService()
    
-   func download<T:Resource>(resource:T.Type,parametars:[String:String], completionHandler completion:@escaping (RequestResult<T>)->Void) {
-      
-      let session = URLSession(configuration: .default)
-      if let request = ApiService.request(for: resource, method: .get, parameters: parametars) {
-         let task = session.dataTask(with: request) { (data, response, error) in
-            guard error == nil, let data = data else {
-               completion(.failure(error!));
-               return
+   func download<T:Decodable>(resource:T.Type,parametars:[String:String], completionHandler completion:@escaping (RequestResult<T>)->Void) {
+      DispatchQueue.global(qos: .background).async {
+         let session = URLSession(configuration: .default)
+         if let request = ApiService.request(for: resource, method: .get, parameters: parametars) {
+            let task = session.dataTask(with: request) { (data, response, error) in
+               guard error == nil, let data = data else {
+                  DispatchQueue.main.async {
+                     completion(.failure(error!));
+                  }
+                  return
+               }
+               do {
+                  let decoder = JSONDecoder()
+                  let responseModel = try decoder.decode(T.self, from: data)
+                  DispatchQueue.main.async {
+                     completion(.success(responseModel))
+                  }
+               }catch let error {
+                  DispatchQueue.main.async {
+                     completion(.failure(error))
+                  }
+               }
             }
-            do {
-               let decoder = JSONDecoder()
-               let responseModel = try decoder.decode(T.self, from: data)
-               completion(.success(responseModel))
-            }catch let error {
-               completion(.failure(error))
-            }
+            task.resume()
          }
-         task.resume()
       }
    }
    

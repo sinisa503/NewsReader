@@ -8,20 +8,10 @@
 
 import Foundation
 
-protocol Resource: Codable {
-   static var endpoint:String { get }
-}
-
-struct ArticlesResponseModel {
+struct ArticlesResponseModel: Codable {
     let status: String
     let totalResults: Int
     let articles: [Article]
-}
-
-extension ArticlesResponseModel: Resource {
-   static var endpoint: String {
-      return ApiConstant.topHeadlinesEndpoint
-   }
 }
 
 struct Article: Codable {

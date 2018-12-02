@@ -11,7 +11,7 @@ import Foundation
 struct ArticlesModuleBuilder {
    static func assembleModule() -> ArticlesViewController {
       
-      let viewController = ArticlesViewController(nibName: ArticlesViewController.identifier, bundle: Bundle.main)
+      let viewController = ArticlesViewController(nibName: ArticlesViewController.IDENTIFIER, bundle: Bundle.main)
       
       let router = ArticlesRouter()
       let interactor = ArticlesInteractor()

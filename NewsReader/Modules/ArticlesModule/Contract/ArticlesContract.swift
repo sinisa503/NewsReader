@@ -21,7 +21,7 @@ protocol ArticlesPresentation {
 }
 
 protocol ArticlesUseCase {
-   func downloadArticles(for country:Country, completion: @escaping ([Article])->())
+   func downloadArticles(completion: @escaping ([Article])->())
 }
 
 protocol ArticlesInteractorOutput {
