@@ -26,11 +26,11 @@ extension ArticlesPresenter: ArticlesPresentation {
    
    func viewDidLoad() {
       
-      refreshArticles()
+      refreshArticles(options: [:])
    }
    
-   func refreshArticles() {
-      self.interactor?.downloadArticles(completion: { articles in
+   func refreshArticles(options:[String:String]) {
+      self.interactor?.downloadArticles(options: options, completion: { articles in
          self.articles = articles
       })
    }

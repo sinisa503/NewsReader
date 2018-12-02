@@ -17,11 +17,11 @@ protocol ArticlesPresentation {
    var articles:[Article]? { get }
    func viewDidLoad()
    func showDetails(for article:Article?)
-   func refreshArticles()
+   func refreshArticles(options:[String:String])
 }
 
 protocol ArticlesUseCase {
-   func downloadArticles(completion: @escaping ([Article])->())
+   func downloadArticles(options:[String:String], completion: @escaping ([Article])->())
 }
 
 protocol ArticlesInteractorOutput {

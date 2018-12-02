@@ -15,7 +15,12 @@ class ArticlesViewController: UIViewController {
    private var searchOption: ArticleEndpoint = .allHeadlines {
       didSet {
          Settings.shared.searchEndpoint = searchOption
-         presenter?.refreshArticles()
+         switch searchOption {
+         case .allHeadlines:
+            presenter?.refreshArticles(options: [ApiConstant.KEY_SORT_BY:ApiConstant.VALUE_PUBLISHED_AT])
+         case .topHeadlines:
+            presenter?.refreshArticles(options: [ApiConstant.KEY_SORT_BY:ApiConstant.VALUE_POPULARITY])
+         }
       }
    }
    lazy var refreshControl:UIRefreshControl = {
@@ -33,7 +38,7 @@ class ArticlesViewController: UIViewController {
    }
    
    @objc private func refreshArticles() {
-      presenter?.refreshArticles()
+      presenter?.refreshArticles(options: [:])
    }
    
    private func setup() {

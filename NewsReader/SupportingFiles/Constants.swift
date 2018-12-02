@@ -26,9 +26,12 @@ struct ApiConstant {
    static let KEY_API_KEY = "apiKey"
    static let KEY_COUNTRY = "country"
    static let KEY_Q = "q"
+   static let KEY_SORT_BY = "sortBy"
    
    //VALUES
    static let VALUE_JSON = "Accept"
    static let API_KEY = "f0a2b4b522304af1979e02ef520758e9"
    static let VALUE_TECHNOLOGY = "technology"
+   static let VALUE_POPULARITY = "popularity"
+   static let VALUE_PUBLISHED_AT = "publishedAt"
 }

@@ -14,8 +14,15 @@ class ArticlesInteractor {
 
 extension ArticlesInteractor: ArticlesUseCase {
    
-   func downloadArticles(completion: @escaping ([Article]) -> ()) {
-      NetworkService.shared.download(resource: ArticlesResponseModel.self, parametars: [ApiConstant.KEY_Q:ApiConstant.VALUE_TECHNOLOGY]) { [weak self] result in
+   func downloadArticles(options:[String:String], completion: @escaping ([Article]) -> ()) {
+      /**
+       Additional query parametar is added "q=technology" because if searching all news
+       "search is too broad" is returned from API. Because of this I added this param to search only technology news
+       **/
+      var dictWithAddedOptionTechnology = options
+      dictWithAddedOptionTechnology.updateValue(ApiConstant.VALUE_TECHNOLOGY, forKey: ApiConstant.KEY_Q)
+      
+      NetworkService.shared.download(resource: ArticlesResponseModel.self, parametars: dictWithAddedOptionTechnology) { [weak self] result in
          switch result {
          case .success(let responseModel):
             completion(responseModel.articles)
