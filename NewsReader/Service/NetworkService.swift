@@ -8,6 +8,11 @@
 
 import Foundation
 
+enum RequestResult<T:Decodable> {
+   case success(T)
+   case failure(Error)
+}
+
 class NetworkService {
    
    private init() {}

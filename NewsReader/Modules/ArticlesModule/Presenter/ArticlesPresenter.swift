@@ -31,7 +31,6 @@ class ArticlesPresenter {
 extension ArticlesPresenter: ArticlesPresentation {
    
    func viewDidLoad() {
-      
       refreshArticles(options: [:])
    }
    
